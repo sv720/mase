@@ -43,6 +43,27 @@ class JSC_Tiny(nn.Module):
 
     def forward(self, x):
         return self.seq_blocks(x)
+    
+class JSC_Tiny10x(nn.Module):
+    def __init__(self, info):
+        super(JSC_Tiny10x, self).__init__()
+        self.seq_blocks = nn.Sequential(
+            # 1st LogicNets Layer
+            nn.BatchNorm1d(16),  # input_quant       # 0
+            nn.ReLU(16),  # 1
+            nn.Linear(16, 32),  # linear              # 2
+            nn.ReLU(32),  # 1
+            nn.Linear(32, 16),  # linear              # 2
+            nn.ReLU(16),  # 1
+            nn.Linear(16, 8),  # linear              # 2
+            nn.ReLU(8),  # 1
+            nn.Linear(8, 5),  # linear              # 2
+            # nn.BatchNorm1d(5),  # output_quant       # 3
+            nn.ReLU(5),  # 4
+        )
+
+    def forward(self, x):
+        return self.seq_blocks(x)
 
 
 class JSC_S(nn.Module):
@@ -90,6 +111,9 @@ def get_jsc_toy(info):
 
 def get_jsc_tiny(info):
     return JSC_Tiny(info)
+
+def get_jsc_tiny10x(info):
+    return JSC_Tiny10x(info)
 
 
 def get_jsc_s(info):

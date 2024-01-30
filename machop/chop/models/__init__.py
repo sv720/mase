@@ -61,7 +61,7 @@ def get_model_info(name: str) -> MaseModelInfo:
     elif is_patched_model(name):
         info = get_patched_model_info(name)
     else:
-        raise ValueError(f"Model {name} not found")
+        raise ValueError(f"Model {name} not found DEBUG")
 
     return info
 
